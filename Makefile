@@ -1,8 +1,11 @@
 serve:
 	php artisan serve
 
-migrate:
+db-migrate:
 	php artisan migrate
 
-rollback:
+db-rollback:
 	php artisan migrate:reset
+
+db-reset:
+	php artisan migrate:refresh
