@@ -7,5 +7,9 @@ db-migrate:
 db-rollback:
 	php artisan migrate:reset
 
+dumpautoload:
+	composer dumpautoload
+
 db-reset:
-	php artisan migrate:refresh
+	make dumpautoload
+	php artisan migrate:refresh --seed
