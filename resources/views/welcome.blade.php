@@ -310,13 +310,13 @@
 
             @-webkit-keyframes pulse {
                 50% {
-                    box-shadow: 0 0 6px 3px var(--dot-shadow);
+                    box-shadow: 0 0 3px 3px var(--dot-shadow);
                 }
             }
 
             @keyframes pulse {
                 50% {
-                    box-shadow: 0 0 6px 3px var(--dot-shadow);
+                    box-shadow: 0 0 3px 3px var(--dot-shadow);
                 }
             }
             @-webkit-keyframes shake {
@@ -530,7 +530,7 @@
                             elem.classList.remove('animated');
                             setTimeout(() => {
                                 openInNewTab('https://beersandfooty.com');
-                                reset(elem);
+                                setTimeout(() => { reset(elem); }, 500);
                             }, 1500);
                         }, 2400);
                     });
@@ -556,7 +556,7 @@
             @endif
 
             <div class="content">
-                <img src="/images/beersandfooty_logo_01.png" height="400px">
+                <img src="/images/beersandfooty_logo_01.png" height="250px">
 
                 <div class="title m-b-md">
                     Beers and Footy - Backend
