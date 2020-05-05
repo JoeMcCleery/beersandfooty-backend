@@ -5,7 +5,7 @@ namespace App\EloquentModels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Review extends Model
+class ContentBlock extends Model
 {
     use SoftDeletes;
 
@@ -14,7 +14,7 @@ class Review extends Model
      *
      * @var string
      */
-    protected $table = 'reviews';
+    protected $table = 'content_blocks';
 
     /**
      * The attributes that are mass assignable.
@@ -22,14 +22,14 @@ class Review extends Model
      * @var array
      */
     protected $fillable = [
-        'type', 'title', 'post_date', 'content_blocks',
+        'type', 'content',
     ];
 
     /**
-     * The content blocks for the review.
+     * Get the review that owns this content block.
      */
-    public function content_blocks()
+    public function review()
     {
-        return $this->hasMany(ContentBlock::class);
+        return $this->belongsTo(Review::class);
     }
 }

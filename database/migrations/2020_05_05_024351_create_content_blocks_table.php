@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReviewsTable extends Migration
+class CreateContentBlocksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('content_blocks', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['beer', 'footy']);
-            $table->char('title', 100);
-            $table->timestamp('post_date', 0);
+            $table->foreignId('review_id');
+            $table->enum('type', ['long_text', 'short_text', 'score', 'image']);
+            $table->string('content', 1024);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +30,6 @@ class CreateReviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('content_blocks');
     }
 }
