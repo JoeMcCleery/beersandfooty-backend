@@ -22,7 +22,7 @@ class Review extends Model
      * @var array
      */
     protected $fillable = [
-        'type', 'title', 'post_date', 'content_blocks',
+        'type', 'title', 'post_date',
     ];
 
     /**

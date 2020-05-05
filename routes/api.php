@@ -1,7 +1,8 @@
 <?php
 
+use App\EloquentModels\Review;
 use App\Http\Resources\ContentBlockCollection;
-use App\Http\Resources\Review;
+use App\Http\Resources\Review as ReviewResource;
 use App\Http\Resources\ReviewCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,13 +25,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // GET Reviews and Review Content
 Route::get('/reviews', function (Request $request) {
     if($request->type) {
-        return new ReviewCollection(\App\EloquentModels\Review::where(['type' => $request->type])->paginate());
+        return new ReviewCollection(Review::where(['type' => $request->type])->paginate());
     }
-    return new ReviewCollection(\App\EloquentModels\Review::paginate());
+    return new ReviewCollection(Review::paginate());
 });
 Route::get('/review/{id}', function (Request $request) {
-    return new Review(\App\EloquentModels\Review::find($request->id));
+    return new ReviewResource(Review::find($request->id));
 });
 Route::get('/review/{id}/contentBlocks', function (Request $request) {
-    return new ContentBlockCollection(\App\EloquentModels\Review::find($request->id)->content_blocks);
+    return new ContentBlockCollection(Review::find($request->id)->content_blocks);
 });

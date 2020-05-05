@@ -21,7 +21,7 @@ $factory->define(Review::class, function (Faker $faker) {
     return [
         'type' => 'beer',
         'title' => $faker->name,
-        'post_date' => $faker->dateTimeBetween('-30 days', 'now'),
+        'publish_date' => $faker->dateTimeBetween('-30 days', 'now'),
     ];
 });
 
