@@ -1,8 +1,8 @@
 @extends('errors::minimal')
 
-@section('title', __('Beers and Footy - Site in Maintenance...'))
-@section('code', '503')
-@section('message', __($exception->getMessage() ?: 'Site in Maintenance...'))
+@section('title', __('Beers and Footy - Too Many Requests'))
+@section('code', '429')
+@section('message', __('Too Many Requests'))
 
 @section('Header')
     <h1>

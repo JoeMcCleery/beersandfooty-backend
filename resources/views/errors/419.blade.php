@@ -1,8 +1,8 @@
 @extends('errors::minimal')
 
-@section('title', __('Beers and Footy - Site in Maintenance...'))
-@section('code', '503')
-@section('message', __($exception->getMessage() ?: 'Site in Maintenance...'))
+@section('title', __('Beers and Footy - Page Expired'))
+@section('code', '419')
+@section('message', __('Page Expired'))
 
 @section('Header')
     <h1>
