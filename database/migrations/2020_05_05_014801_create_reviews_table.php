@@ -17,7 +17,7 @@ class CreateReviewsTable extends Migration
             $table->id();
             $table->enum('type', ['beer', 'footy']);
             $table->char('title', 100);
-            $table->dateTimeTz('post_date', 0);
+            $table->timestamp('post_date', 0);
             $table->json('content_blocks');
             $table->timestamps();
         });

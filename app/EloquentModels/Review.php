@@ -27,8 +27,6 @@ class Review extends Model
      *
      * @var array
      */
-    protected $casts = [
-        'post_date' => 'datetime',
-    ];
+    protected $casts = [];
 
 }
