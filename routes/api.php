@@ -32,6 +32,3 @@ Route::get('/reviews', function (Request $request) {
 Route::get('/review/{id}', function (Request $request) {
     return new ReviewResource(Review::find($request->id));
 });
-Route::get('/review/{id}/contentBlocks', function (Request $request) {
-    return new ContentBlockCollection(Review::find($request->id)->content_blocks);
-});
