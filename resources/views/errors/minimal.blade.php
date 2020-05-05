@@ -55,25 +55,23 @@
                 text-align: center;
             }
 
-            .top-left {
-                position: absolute;
-                top: 0;
-                left: 0;
-                margin: 1em;
+            .padding {
+                padding: 10px;
             }
         </style>
     </head>
     <body>
         <div class="flex-center column position-ref full-height">
-            <div class="flex-center column">
-                @yield('Header')
+            <div class="flex-center column padding">
+                <h1>Beers and Footy API</h1>
+                <img src="/images/beersandfooty_logo_01.png" height="250px">
             </div>
             <div class="flex-center row">
                 <div class="code">
                     @yield('code')
                 </div>
 
-                <div class="message" style="padding: 10px;">
+                <div class="message padding">
                     @yield('message')
                 </div>
             </div>
