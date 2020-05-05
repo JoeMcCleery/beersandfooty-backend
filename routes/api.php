@@ -31,5 +31,5 @@ Route::get('/reviews', function (Request $request) {
 });
 // GET Review by id
 Route::get('/review/{id}', function (Request $request) {
-    return new ReviewResource(Review::find($request->id));
+    return new ReviewResource(Review::findOrFail($request->id));
 });

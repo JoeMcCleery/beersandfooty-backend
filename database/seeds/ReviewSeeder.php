@@ -12,7 +12,7 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\EloquentModels\Review::class, 5)->create(['type' => 'beer']);
-        factory(App\EloquentModels\Review::class, 5)->create(['type' => 'footy']);
+        factory(App\EloquentModels\Review::class, 25)->create(['type' => 'beer']);
+        factory(App\EloquentModels\Review::class, 25)->create(['type' => 'footy']);
     }
 }
