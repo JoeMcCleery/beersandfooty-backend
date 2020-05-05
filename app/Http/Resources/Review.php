@@ -16,10 +16,10 @@ class Review extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'type' => $this->type,
             'title' => $this->title,
             'publish_date' => $this->publish_date,
-            'user_id' => $this->user_id,
             'content_blocks' => ContentBlockCollection::make($this->content_blocks),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

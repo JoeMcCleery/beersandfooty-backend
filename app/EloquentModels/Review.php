@@ -32,4 +32,12 @@ class Review extends Model
     {
         return $this->hasMany(ContentBlock::class);
     }
+
+    /**
+     * Get the user that owns this review.
+     */
+    public function review()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

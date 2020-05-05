@@ -43,4 +43,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the reviews posted by this user.
+     */
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
