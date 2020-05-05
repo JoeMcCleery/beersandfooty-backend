@@ -1,8 +1,8 @@
 @extends('errors::minimal')
 
-@section('title', __('Beers and Footy - Site in Maintenance...'))
-@section('code', '503')
-@section('message', __($exception->getMessage() ?: 'Site in Maintenance...'))
+@section('title', __('Beers and Footy - Page Not Found'))
+@section('code', '404')
+@section('message', __($exception->getMessage() ?: 'Page Not Found'))
 
 <div class="flex-center" style="min-height: 150px; width: 100%; flex-direction: column;">
     <h1>
