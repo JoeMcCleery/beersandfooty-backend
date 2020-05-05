@@ -14,8 +14,9 @@ class CreateContentBlocksTable extends Migration
     public function up()
     {
         Schema::create('content_blocks', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('review_id');
+            $table->increments('id');
+            $table->integer('review_id')->unsigned();
+            $table->foreign('review_id')->references('id')->on('reviews')->onDelete('cascade');
             $table->enum('type', ['long_text', 'short_text', 'score', 'image']);
             $table->string('content', 1024);
             $table->timestamps();

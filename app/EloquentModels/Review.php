@@ -26,7 +26,7 @@ class Review extends Model
     ];
 
     /**
-     * The content blocks for the review.
+     * Get the content blocks for the review.
      */
     public function content_blocks()
     {

@@ -14,7 +14,7 @@ class CreateReviewsTable extends Migration
     public function up()
     {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->enum('type', ['beer', 'footy']);
             $table->char('title', 100);
             $table->timestamp('post_date', 0);
