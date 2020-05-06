@@ -24,17 +24,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // GET all Reviews
 Route::get('/reviews', function (Request $request) {
-    return new ReviewCollection(Review::paginate());
+    return new ReviewCollection(Review::where(['status' => 'published'])->paginate());
 });
 // GET all beer Reviews
 Route::get('/reviews/beer', function (Request $request) {
-    return new ReviewCollection(Review::where(['type' => 'beer'])->paginate());
+    return new ReviewCollection(Review::where(['type' => 'beer', 'status' => 'published'])->paginate());
 });
 // GET all footy Reviews
 Route::get('/reviews/footy', function (Request $request) {
-    return new ReviewCollection(Review::where(['type' => 'footy'])->paginate());
+    return new ReviewCollection(Review::where(['type' => 'footy',  'status' => 'published'])->paginate());
 });
 // GET a single Review by id
 Route::get('/review/{id}', function (Request $request) {
-    return new ReviewResource(Review::findOrFail($request->id));
+    return new ReviewResource(Review::where(['status' => 'published'])->findOrFail($request->id));
 });

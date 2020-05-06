@@ -18,8 +18,9 @@ class CreateReviewsTable extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('type', ['beer', 'footy']);
+            $table->enum('status', ['needs_review', 'published']);
             $table->char('title', 100);
-            $table->timestamp('publish_date', 0);
+            $table->bigInteger('publish_date');
             $table->timestamps();
             $table->softDeletes();
         });

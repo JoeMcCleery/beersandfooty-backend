@@ -20,8 +20,9 @@ use Faker\Generator as Faker;
 $factory->define(Review::class, function (Faker $faker) {
     return [
         'type' => 'beer',
+        'status' => 'published',
         'title' => $faker->name,
-        'publish_date' => $faker->dateTimeBetween('-30 days', 'now'),
+        'publish_date' => $faker->unixTime(),
     ];
 });
 
