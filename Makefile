@@ -1,5 +1,9 @@
 -include ../ubuntu-lamp/overrides.mk
 LOCAL_PHP_VERSION=7.3
+install:
+	composer install
+	npm install
+	cp ./.env.example ./.env
 
 serve:
 	php artisan serve
