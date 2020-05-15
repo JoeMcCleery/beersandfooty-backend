@@ -20,20 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/redirect', function (Request $request) {
-    $request->session()->put('state', $state = Str::random(40));
-
-    $query = http_build_query([
-        'client_id' => 'client-id',
-        'redirect_uri' => 'http://example.com/callback',
-        'response_type' => 'code',
-        'scope' => '',
-        'state' => $state,
-    ]);
-
-    return redirect(env('APP_URL', 'http://localhost').'/oauth/authorize?'.$query);
-});
-
 // GET all Reviews
 Route::get('/reviews', function (Request $request) {
     return new ReviewCollection(Review::where(['status' => 'published'])->orderBy('publish_date', 'desc')->paginate());
