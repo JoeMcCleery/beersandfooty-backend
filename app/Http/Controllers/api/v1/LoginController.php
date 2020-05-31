@@ -39,6 +39,7 @@ class LoginController extends Controller
             'username' => $username,
             'password' => $password
         ]);
+
         auth()->login($user);
         $user = Auth::user();
 

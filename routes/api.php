@@ -6,6 +6,7 @@ use App\Http\Resources\Review as ReviewResource;
 use App\Http\Resources\ReviewCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,13 +28,13 @@ Route::prefix('v1')->group( function () {
 
     // Reviews
     // returns a single published review by id
-    Route::get('/review/{id}', 'api\v1\ReviewController@review');
+    Route::get('/review/{id}', 'api\v1\ReviewController@review')->middleware('client');
     // returns all published reviews
-    Route::get('/reviews', 'api\v1\ReviewController@reviews');
+    Route::get('/reviews', 'api\v1\ReviewController@reviews')->middleware('client');
     // returns all published beer reviews
-    Route::get('/reviews/beer', 'api\v1\ReviewController@beerReviews');
+    Route::get('/reviews/beer', 'api\v1\ReviewController@beerReviews')->middleware('client');
     // returns all published footy reviews
-    Route::get('/reviews/footy', 'api\v1\ReviewController@footyReviews');
+    Route::get('/reviews/footy', 'api\v1\ReviewController@footyReviews')->middleware('client');
 });
 
 
