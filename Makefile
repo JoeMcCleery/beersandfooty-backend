@@ -24,8 +24,9 @@ flush:
 	php artisan view:cache
 
 deploy-prod:
-	make install
 	composer install --optimize-autoloader --no-dev
+	npm install
+	make generate-keys
 	make db-reset
 	make flush
 	make serve
