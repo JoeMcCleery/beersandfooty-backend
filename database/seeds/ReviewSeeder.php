@@ -1,6 +1,5 @@
 <?php
 
-use App\EloquentModels\ContentBlock;
 use Illuminate\Database\Seeder;
 
 class ReviewSeeder extends Seeder

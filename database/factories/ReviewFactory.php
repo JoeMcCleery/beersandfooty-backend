@@ -4,6 +4,7 @@
 
 use App\EloquentModels\Review;
 use App\EloquentModels\ContentBlock;
+use App\EloquentModels\User;
 use Faker\Generator as Faker;
 
 /*
@@ -23,6 +24,7 @@ $factory->define(Review::class, function (Faker $faker) {
         'status' => 'published',
         'title' => $faker->name,
         'publish_date' => $faker->unixTime(),
+        'user_id' => User::all()->random()
     ];
 });
 

@@ -5,8 +5,7 @@ LOCAL_PHP_VERSION=7.3
 install:
 	composer install
 	npm install
-	php artisan passport:install
-	cp ./.env.example ./.env
+	make generate-keys
 
 serve:
 	php artisan serve
@@ -16,21 +15,18 @@ db-reset:
 
 generate-keys:
 	php artisan key:generate
-	php artisan passport:keys --force
+	php artisan passport:install --force
 
 flush:
 	composer dumpautoload
 	php artisan cache:clear
 	php artisan config:cache
-	php artisan route:cache
-	php artisan view:cahce
+	php artisan view:cache
 
 deploy-prod:
 	make install
-	make generate-keys
-	make serve
-	php artisan down
-	make db-reset
 	composer install --optimize-autoloader --no-dev
+	make db-reset
 	make flush
-	php artisan up
+	make serve
+

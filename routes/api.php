@@ -1,6 +1,7 @@
 <?php
 
 use App\EloquentModels\Review;
+use App\Http\Controllers\api\v1\LoginController as V1LoginController;
 use App\Http\Resources\Review as ReviewResource;
 use App\Http\Resources\ReviewCollection;
 use Illuminate\Http\Request;
@@ -16,23 +17,20 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::prefix('v1')->group( function () {
+    // User Auth
+    Route::post('/login', 'api\v1\LoginController@login');
+    Route::post('/register', 'api\v1\LoginController@register');
+
+    // GET a single Review by id
+    Route::get('/review/{id}', 'api\v1\ReviewController@review');
+    // GET all Reviews
+    Route::get('/reviews', 'api\v1\ReviewController@reviews');
+    // GET all beer Reviews
+    Route::get('/reviews/beer', 'api\v1\ReviewController@beerReviews');
+    // GET all footy Reviews
+    Route::get('/reviews/footy', 'api\v1\ReviewController@footyReviews');
 });
 
-// GET all Reviews
-Route::get('/reviews', function (Request $request) {
-    return new ReviewCollection(Review::where(['status' => 'published'])->orderBy('publish_date', 'desc')->paginate());
-});
-// GET all beer Reviews
-Route::get('/reviews/beer', function (Request $request) {
-    return new ReviewCollection(Review::where(['type' => 'beer', 'status' => 'published'])->orderBy('publish_date', 'desc')->paginate());
-});
-// GET all footy Reviews
-Route::get('/reviews/footy', function (Request $request) {
-    return new ReviewCollection(Review::where(['type' => 'footy',  'status' => 'published'])->orderBy('publish_date', 'desc')->paginate());
-});
-// GET a single Review by id
-Route::get('/review/{id}', function (Request $request, $id) {
-    return new ReviewResource(Review::where(['status' => 'published'])->findOrFail($id));
-});
+
