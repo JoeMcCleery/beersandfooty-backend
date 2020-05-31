@@ -19,17 +19,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group( function () {
-    // User Auth
+    // Users
+    // user account Login
     Route::post('/login', 'api\v1\LoginController@login');
+    // user account registration
     Route::post('/register', 'api\v1\LoginController@register');
 
-    // GET a single Review by id
+    // Reviews
+    // returns a single published review by id
     Route::get('/review/{id}', 'api\v1\ReviewController@review');
-    // GET all Reviews
+    // returns all published reviews
     Route::get('/reviews', 'api\v1\ReviewController@reviews');
-    // GET all beer Reviews
+    // returns all published beer reviews
     Route::get('/reviews/beer', 'api\v1\ReviewController@beerReviews');
-    // GET all footy Reviews
+    // returns all published footy reviews
     Route::get('/reviews/footy', 'api\v1\ReviewController@footyReviews');
 });
 
