@@ -12,7 +12,7 @@ class ReviewController extends Controller
 {
     public function index(Request $request)
     {
-        return new ReviewCollection(Review::all()->paginate());
+        return new ReviewCollection(Review::paginate());
     }
 
     public function show(Request $request, $id)
