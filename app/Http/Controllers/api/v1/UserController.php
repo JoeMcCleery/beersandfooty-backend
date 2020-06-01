@@ -4,18 +4,20 @@ namespace App\Http\Controllers\api\v1;
 
 use App\EloquentModels\User;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserCollection;
 use Illuminate\Http\Request;
+use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
 {
     public function index()
     {
-        return User::all();
+        return new UserCollection(User::all());
     }
 
     public function show($id)
     {
-        return User::find($id);
+        return new UserResource(User::findOrFail($id));
     }
 
     public function store(Request $request)
@@ -24,18 +26,8 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $article = User::findOrFail($id);
-        $article->update($request->all());
-
-        return $article;
-    }
+    {}
 
     public function delete(Request $request, $id)
-    {
-        $article = User::findOrFail($id);
-        $article->delete();
-
-        return 204;
-    }
+    {}
 }

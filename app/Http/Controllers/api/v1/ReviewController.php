@@ -12,12 +12,12 @@ class ReviewController extends Controller
 {
     public function index(Request $request)
     {
-        return new ReviewCollection(Review::where(['status' => 'published'])->orderBy('publish_date', 'desc')->paginate());
+        return new ReviewCollection(Review::all()->orderBy('publish_date', 'desc')->paginate());
     }
 
     public function show(Request $request, $id)
     {
-        return new ReviewResource(Review::where(['status' => 'published'])->findOrFail($id));
+        return new ReviewResource(Review::findOrFail($id));
     }
 
     public function store(Request $request)
@@ -27,12 +27,7 @@ class ReviewController extends Controller
     {}
 
     public function delete(Request $request, $id)
-    {
-        $article = Review::findOrFail($id);
-        $article->delete();
-
-        return 204;
-    }
+    {}
 
     public function beerReviews(Request $request)
     {
