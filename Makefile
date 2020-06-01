@@ -16,6 +16,7 @@ db-reset:
 generate-keys:
 	php artisan key:generate
 	php artisan passport:install --force
+	php artisan passport:client --client
 
 flush:
 	composer dumpautoload
