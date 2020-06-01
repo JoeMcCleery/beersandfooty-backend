@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return new UserCollection(User::all());
+        return new UserCollection(User::all()->paginate());
     }
 
     public function show($id)
