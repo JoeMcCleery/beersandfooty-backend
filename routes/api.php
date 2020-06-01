@@ -1,7 +1,7 @@
 <?php
 
 use App\EloquentModels\Review;
-use App\Http\Controllers\api\v1\LoginController as V1LoginController;
+use App\Http\Controllers\api\v1\UserController as V1LoginController;
 use App\Http\Resources\Review as ReviewResource;
 use App\Http\Resources\ReviewCollection;
 use Illuminate\Http\Request;
@@ -19,22 +19,21 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::prefix('v1')->group( function () {
-    // Users
-    // user account Login
-    Route::post('/login', 'api\v1\LoginController@login');
-    // user account registration
-    Route::post('/register', 'api\v1\LoginController@register');
+Route::prefix('v1')->middleware('client')->group( function () {
+    // User
+    Route::get('/users', 'api\v1\UserController@index');
+    Route::get('/user/{id}', 'api\v1\UserController@show');
+    Route::post('/users', 'api\v1\UserController@store');
+    Route::put('/users/{id}', 'api\v1\UserController@update');
+    Route::delete('/users/{id}', 'api\v1\UserController@delete');
 
     // Reviews
-    // returns a single published review by id
-    Route::get('/review/{id}', 'api\v1\ReviewController@review')->middleware('client');
-    // returns all published reviews
-    Route::get('/reviews', 'api\v1\ReviewController@reviews')->middleware('client');
+    Route::get('/reviews', 'api\v1\ReviewController@index');
+    Route::get('/review/{id}', 'api\v1\ReviewController@show');
     // returns all published beer reviews
-    Route::get('/reviews/beer', 'api\v1\ReviewController@beerReviews')->middleware('client');
+    Route::get('/reviews/beer', 'api\v1\ReviewController@beerReviews');
     // returns all published footy reviews
-    Route::get('/reviews/footy', 'api\v1\ReviewController@footyReviews')->middleware('client');
+    Route::get('/reviews/footy', 'api\v1\ReviewController@footyReviews');
 });
 
 

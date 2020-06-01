@@ -10,14 +10,28 @@ use App\Http\Resources\Review as ReviewResource;
 
 class ReviewController extends Controller
 {
-    public function review(Request $request, $id)
+    public function index(Request $request)
+    {
+        return new ReviewCollection(Review::where(['status' => 'published'])->orderBy('publish_date', 'desc')->paginate());
+    }
+
+    public function show(Request $request, $id)
     {
         return new ReviewResource(Review::where(['status' => 'published'])->findOrFail($id));
     }
 
-    public function reviews(Request $request)
+    public function store(Request $request)
+    {}
+
+    public function update(Request $request, $id)
+    {}
+
+    public function delete(Request $request, $id)
     {
-        return new ReviewCollection(Review::where(['status' => 'published'])->orderBy('publish_date', 'desc')->paginate());
+        $article = Review::findOrFail($id);
+        $article->delete();
+
+        return 204;
     }
 
     public function beerReviews(Request $request)
