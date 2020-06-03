@@ -21,6 +21,7 @@ use Illuminate\Support\Str;
 
 Route::prefix('v1')->middleware('client')->group( function () {
     // User
+    Route::get('/user', 'api\v1\UserController@currentUser');
     Route::get('/users', 'api\v1\UserController@index');
     Route::get('/users/{id}', 'api\v1\UserController@show');
     Route::post('/users', 'api\v1\UserController@store');
