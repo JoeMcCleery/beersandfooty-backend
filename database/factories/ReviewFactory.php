@@ -19,8 +19,9 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(Review::class, function (Faker $faker) {
+    $type = random_int(0,1);
     return [
-        'type' => 'beer',
+        'type' => $type ? 'beer' : 'footy',
         'status' => 'published',
         'title' => $faker->name,
         'publish_date' => $faker->unixTime(),

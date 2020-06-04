@@ -11,7 +11,6 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\EloquentModels\Review::class, 50)->create(['type' => 'beer']);
-        factory(App\EloquentModels\Review::class, 50)->create(['type' => 'footy']);
+        factory(App\EloquentModels\Review::class, 100)->create();
     }
 }

@@ -14,6 +14,8 @@ class Review extends JsonResource
      */
     public function toArray($request)
     {
+        $upvotes = $this->votes->where('upvote', true)->count();
+        $downvotes = $this->votes->where('upvote', false)->count();
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -21,6 +23,7 @@ class Review extends JsonResource
             'title' => $this->title,
             'publish_date' => $this->publish_date,
             'content_blocks' => ContentBlockCollection::make($this->content_blocks),
+            'votes' => VoteCollection::make($this->votes),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,

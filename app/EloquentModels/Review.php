@@ -34,9 +34,17 @@ class Review extends Model
     }
 
     /**
+     * Get the votes for the review.
+     */
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    /**
      * Get the user that owns this review.
      */
-    public function review()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

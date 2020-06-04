@@ -80,4 +80,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    /**
+     * Get the votes made by this user.
+     */
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
 }
