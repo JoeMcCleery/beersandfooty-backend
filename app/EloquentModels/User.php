@@ -44,6 +44,19 @@ class User extends Authenticatable
     protected $casts = [];
 
     /**
+     * Calculate and return the current users score
+     */
+    public function score() {
+        $score = 0;
+        foreach ($this->reviews as $review) {
+            foreach($review->votes as $vote) {
+                $score += $vote->upvote ? 1 : -1;
+            }
+        }
+        return $score;
+    }
+
+    /**
      * Add a mutator to ensure hashed passwords
      */
     public function setPasswordAttribute($password)

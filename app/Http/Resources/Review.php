@@ -23,7 +23,10 @@ class Review extends JsonResource
             'title' => $this->title,
             'publish_date' => $this->publish_date,
             'content_blocks' => ContentBlockCollection::make($this->content_blocks),
-            'votes' => VoteCollection::make($this->votes),
+            'votes' => [
+                'upvotes' => $upvotes,
+                'downvotes' => $downvotes
+            ],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
