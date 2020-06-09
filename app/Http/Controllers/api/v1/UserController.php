@@ -90,7 +90,7 @@ class UserController extends Controller
     public function delete(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        if ($user && $user === Auth::user()) {
+        if ($user && $user === auth('api')->user()) {
            $user->delete();
         }
     }
