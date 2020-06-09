@@ -29,6 +29,13 @@ Route::prefix('v1')->middleware('client')->group( function () {
     Route::put('/reviews', 'api\v1\ReviewController@update');
     Route::delete('/reviews/{id}', 'api\v1\ReviewController@delete');
 
+    // Votes
+    Route::get('/votes', 'api\v1\VoteController@index');
+    Route::get('/votes/{id}', 'api\v1\VoteController@show');
+    Route::post('/votes', 'api\v1\VoteController@store');
+    Route::put('/votes', 'api\v1\VoteController@update');
+    Route::delete('/votes/{id}', 'api\v1\VoteController@delete');
+
     // returns all published beer reviews
     Route::get('/beer-reviews', 'api\v1\ReviewController@beerReviews');
     // returns all published footy reviews
