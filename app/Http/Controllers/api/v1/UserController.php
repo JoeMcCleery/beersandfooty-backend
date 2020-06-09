@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCollection;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -56,10 +57,17 @@ class UserController extends Controller
         $username = $request->username;
         $password = $request->password;
 
-        if(User::where('username', $username)->first()) {
+        if(User::withTrashed()->where('username', $username)->first()) {
             return [
                 'success' => false,
                 'message'  => 'User with that username already exists!',
+            ];
+        }
+
+        if(!preg_match('/^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$/', $username)) {
+            return [
+                'success' => false,
+                'message'  => 'Username can only be 8 - 20 alpha numeric characters!',
             ];
         }
 
@@ -80,6 +88,11 @@ class UserController extends Controller
     {}
 
     public function delete(Request $request, $id)
-    {}
+    {
+        $user = User::findOrFail($id);
+        if ($user && $user === Auth::user()) {
+           $user->delete();
+        }
+    }
 
 }
