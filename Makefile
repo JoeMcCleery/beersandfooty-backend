@@ -5,7 +5,6 @@ LOCAL_PHP_VERSION=7.3
 install:
 	composer install
 	npm install
-	make generate-keys
 
 serve:
 	php artisan serve

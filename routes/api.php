@@ -1,12 +1,6 @@
 <?php
 
-use App\EloquentModels\Review;
-use App\Http\Controllers\api\v1\UserController as V1LoginController;
-use App\Http\Resources\Review as ReviewResource;
-use App\Http\Resources\ReviewCollection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
