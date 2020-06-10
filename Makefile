@@ -1,6 +1,6 @@
 -include ../ubuntu-lamp/overrides.mk
 
-LOCAL_PHP_VERSION=7.3
+LOCAL_PHP_VERSION=7.4
 
 install:
 	composer install
