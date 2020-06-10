@@ -22,12 +22,12 @@ class UserController extends Controller
                     'user' => new UserResource($user)
                 ]
             ];
-        } else {
-            return [
-                'success' => false,
-                'message' => 'No currently logged in user found!'
-            ];
         }
+
+        return [
+            'success' => false,
+            'message' => 'No currently logged in user found!'
+        ];
     }
 
     public function index()
@@ -92,7 +92,17 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         if ($user && $user === auth('api')->user()) {
            $user->delete();
+
+            return [
+                'success' => true,
+                'message' => 'User with id: '.$id.' has been deleted.'
+            ];
         }
+
+        return [
+            'success' => false,
+            'message' => 'Could not find User with id: '.$id.', or do not have permission to delete.'
+        ];
     }
 
 }
