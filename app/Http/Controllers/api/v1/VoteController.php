@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\EloquentModels\User;
 use App\EloquentModels\Vote;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserCollection;
 use App\Http\Resources\VoteCollection;
 use Illuminate\Http\Request;
 use App\Http\Resources\Vote as VoteResource;
-use Illuminate\Support\Facades\Auth;
 
 class VoteController extends Controller
 {
@@ -27,7 +24,6 @@ class VoteController extends Controller
     {
         $validatedData = $request->validate([
             'upvote' => 'required|boolean',
-            'user_id' => 'required|integer',
             'review_id' => 'required|integer',
         ]);
 
@@ -39,26 +35,31 @@ class VoteController extends Controller
         }
 
         $upvote = $request->upvote;
-        $user_id = $request->user_id;
         $review_id = $request->review_id;
+        $user = auth('api')->user();
 
-        $vote = Vote::withTrashed()->where(['user_id' => $user_id, 'review_id' => $review_id])->get();
+        if (!$user) {
+            return [
+                'success' => false,
+                'message'  => 'Must be logged in to make votes!',
+            ];
+        }
 
-        if ($vote && $vote->trashed()) {
-            $vote->restore();
+        $vote = Vote::where(['user_id' => $user->id, 'review_id' => $review_id])->first();
+        if ($vote) {
             $vote->upvote = $upvote;
-            $vote->save();
         } else {
-            $vote = new Vote();
+            $vote = new Vote;
             $vote->upvote = $upvote;
-            $vote->user_id = $user_id;
+            $vote->user_id = $user->id;
             $vote->review_id = $review_id;
         }
+        $vote->save();
 
         return [
             'success' => true,
             'data' => [
-                'vote' => $this->show($vote->id)
+                'votes' => new VoteCollection($user->votes)
             ]
         ];
     }
@@ -68,20 +69,24 @@ class VoteController extends Controller
 
     public function delete(Request $request, $id)
     {
-        $vote = Vote::findOrFail($id);
-        if ($vote && $vote->user_id === auth('api')->user()->id) {
-            $vote->delete();
-
+        $user = auth('api')->user();
+        $vote = Vote::find($id);
+        if(!$vote || !$user || !$user->id === $vote->user_id) {
             return [
-                'success' => true,
-                'message' => 'Vote with id: '.$id.' has been deleted.'
+                'success' => false,
+                'message' => 'Could not find Vote with id: '.$id.', or do not have permission to delete.'
             ];
         }
 
+        $vote->delete();
+
         return [
-            'success' => false,
-            'message' => 'Could not find vote with id: '.$id.', or do not have permission to delete.'
+            'success' => true,
+            'data' => [
+                'votes' => new VoteCollection($user->votes)
+            ]
         ];
+
     }
 
 }

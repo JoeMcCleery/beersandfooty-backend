@@ -21,7 +21,6 @@ class CreateVotesTable extends Migration
             $table->integer('review_id')->unsigned()->nullable();
             $table->foreign('review_id')->references('id')->on('reviews')->onDelete('cascade');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
