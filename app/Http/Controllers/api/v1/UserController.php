@@ -89,18 +89,21 @@ class UserController extends Controller
     public function delete(Request $request, $id)
     {
         $user = User::find($id);
-        if ($user && $user === auth('api')->user()) {
-           $user->delete();
 
+        if (!$user && $user !== auth('api')->user()) {
             return [
-                'success' => true,
-                'message' => 'User with id: '.$id.' has been deleted.'
+                'success' => false,
+                'message' => 'Could not find User with id:'.$id.', or do not have permission to delete.'
             ];
+
         }
 
+        $user->delete();
+
+
         return [
-            'success' => false,
-            'message' => 'Could not find User with id: '.$id.', or do not have permission to delete.'
+            'success' => true,
+            'message' => 'User with id:'.$id.' has been deleted.'
         ];
     }
 

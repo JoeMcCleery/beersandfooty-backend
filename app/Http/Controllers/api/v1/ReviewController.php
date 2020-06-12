@@ -28,19 +28,19 @@ class ReviewController extends Controller
 
     public function delete(Request $request, $id)
     {
-        $review = Review::findOrFail($id);
-        if ($review && $review->user_id === auth('api')->user()->id) {
-            $review->delete();
-
+        $review = Review::find($id);
+        if (!$review && $review->user_id !== auth('api')->user()->id) {
             return [
-                'success' => true,
-                'message' => 'Review with id: '.$id.' has been deleted.'
+                'success' => false,
+                'message' => 'Could not find review with id:'.$id.', or do not have permission to delete.'
             ];
         }
 
+        $review->delete();
+
         return [
-            'success' => false,
-            'message' => 'Could not find review with id: '.$id.', or do not have permission to delete.'
+            'success' => true,
+            'message' => 'Review with id:'.$id.' has been deleted.'
         ];
     }
 

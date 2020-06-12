@@ -59,7 +59,7 @@ class VoteController extends Controller
         return [
             'success' => true,
             'data' => [
-                'votes' => new VoteCollection($user->votes)
+                'vote' => $this->show($vote->id)
             ]
         ];
     }
@@ -69,22 +69,21 @@ class VoteController extends Controller
 
     public function delete(Request $request, $id)
     {
-        $user = auth('api')->user();
         $vote = Vote::find($id);
+        $user = auth('api')->user();
+
         if(!$vote || !$user || !$user->id === $vote->user_id) {
             return [
                 'success' => false,
-                'message' => 'Could not find Vote with id: '.$id.', or do not have permission to delete.'
+                'message' => 'Could not find Vote with id:'.$id.', or do not have permission to delete.'
             ];
+        } else {
+            $vote->delete();
         }
-
-        $vote->delete();
 
         return [
             'success' => true,
-            'data' => [
-                'votes' => new VoteCollection($user->votes)
-            ]
+            'message' => 'Vote with id:'.$id.' has been deleted'
         ];
 
     }
