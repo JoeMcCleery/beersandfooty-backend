@@ -16,9 +16,10 @@ class CreateReviewsTable extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('score')->default(0);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('type', ['beer', 'footy']);
-            $table->enum('status', ['needs_review', 'published']);
+            $table->enum('status', ['hidden', 'published']);
             $table->char('title', 100);
             $table->bigInteger('publish_date');
             $table->timestamps();

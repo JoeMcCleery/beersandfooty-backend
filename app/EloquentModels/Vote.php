@@ -8,6 +8,28 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Vote extends Model
 {
 
+    public static function boot() {
+        parent::boot();
+
+        self::creating(function ($model) {
+            self::updateReviewScore($model);
+        });
+
+        self::updating(function ($model) {
+            self::updateReviewScore($model);
+        });
+
+        self::deleting(function ($model) {
+            self::updateReviewScore($model);
+        });
+    }
+
+    private static function updateReviewScore($model) {
+        $review = $model->review;
+        $review->score = $review->getScore();
+        $review->save();
+    }
+
     /**
      * The table associated with the model.
      *

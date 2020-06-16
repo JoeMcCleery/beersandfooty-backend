@@ -47,11 +47,12 @@ class User extends Authenticatable
     /**
      * Calculate and return the current users score
      */
-    public function score() {
+    public function getScore() {
         $score = 0;
-        foreach ($this->reviews as $review) {
-            foreach($review->votes as $vote) {
-                $score += $vote->upvote ? 1 : -1;
+        $reviews = $this->reviews;
+        if($reviews) {
+            foreach ($reviews as $review) {
+                $score += $review->score;
             }
         }
         return $score;

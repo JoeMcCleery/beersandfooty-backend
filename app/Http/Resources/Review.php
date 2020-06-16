@@ -19,6 +19,7 @@ class Review extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'score' => $this->score,
             'type' => $this->type,
             'title' => $this->title,
             'publish_date' => $this->publish_date,

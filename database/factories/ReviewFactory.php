@@ -20,10 +20,11 @@ use Faker\Generator as Faker;
 
 $factory->define(Review::class, function (Faker $faker) {
     $type = random_int(0,1);
+    $published = random_int(0,1);
     return [
         'type' => $type ? 'beer' : 'footy',
-        'status' => 'published',
-        'title' => $faker->name,
+        'status' => $published ? 'published' : 'hidden',
+        'title' => $faker->text(16),
         'publish_date' => $faker->unixTime(),
         'user_id' => User::all()->random()
     ];

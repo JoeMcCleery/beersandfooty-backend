@@ -9,6 +9,28 @@ class Review extends Model
 {
     use SoftDeletes;
 
+    public static function boot() {
+        parent::boot();
+
+        self::creating(function ($model) {
+            self::updateUserScore($model);
+        });
+
+        self::updating(function ($model) {
+            self::updateUserScore($model);
+        });
+
+        self::deleting(function ($model) {
+            self::updateUserScore($model);
+        });
+    }
+
+    private static function updateUserScore($model) {
+        $user = $model->user;
+        $user->score = $user->getScore();
+        $user->save();
+    }
+
     /**
      * The table associated with the model.
      *
@@ -47,5 +69,20 @@ class Review extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the score of the current review.
+     */
+    public function getScore()
+    {
+        $score = 0;
+        $votes = $this->votes;
+        if($votes) {
+            foreach ($votes as $vote) {
+                $score += $vote->upvote ? 1 : -1;
+            }
+        }
+        return $score;
     }
 }
