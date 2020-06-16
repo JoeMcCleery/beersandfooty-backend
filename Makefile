@@ -7,7 +7,7 @@ install:
 	npm install
 
 serve:
-	php artisan serve
+	php artisan serve --host=${APP_HOST}
 
 db-reset:
 	php artisan migrate:fresh --seed
@@ -31,3 +31,4 @@ deploy-prod:
 	make flush
 	make serve
 
+-include .env
