@@ -11,15 +11,15 @@ class Vote extends Model
     public static function boot() {
         parent::boot();
 
-        self::creating(function ($model) {
+        self::created(function ($model) {
             self::updateReviewScore($model);
         });
 
-        self::updating(function ($model) {
+        self::updated(function ($model) {
             self::updateReviewScore($model);
         });
 
-        self::deleting(function ($model) {
+        self::deleted(function ($model) {
             self::updateReviewScore($model);
         });
     }

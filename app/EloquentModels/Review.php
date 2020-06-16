@@ -12,15 +12,15 @@ class Review extends Model
     public static function boot() {
         parent::boot();
 
-        self::creating(function ($model) {
+        self::created(function ($model) {
             self::updateUserScore($model);
         });
 
-        self::updating(function ($model) {
+        self::updated(function ($model) {
             self::updateUserScore($model);
         });
 
-        self::deleting(function ($model) {
+        self::deleted(function ($model) {
             self::updateUserScore($model);
         });
     }
