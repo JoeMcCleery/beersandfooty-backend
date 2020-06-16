@@ -72,7 +72,7 @@ class Review extends Model
     }
 
     /**
-     * Get the score of the current review.
+     * Calculate and return the current review's score
      */
     public function getScore()
     {

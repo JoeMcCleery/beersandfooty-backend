@@ -45,7 +45,7 @@ class User extends Authenticatable
     protected $casts = [];
 
     /**
-     * Calculate and return the current users score
+     * Calculate and return the current user's score
      */
     public function getScore() {
         $score = 0;
