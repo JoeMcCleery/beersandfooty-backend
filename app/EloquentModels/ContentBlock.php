@@ -22,7 +22,7 @@ class ContentBlock extends Model
      * @var array
      */
     protected $fillable = [
-        'type', 'content',
+        'sort', 'type', 'content',
     ];
 
     /**
