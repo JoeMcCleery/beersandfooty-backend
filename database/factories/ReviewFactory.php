@@ -32,5 +32,9 @@ $factory->define(Review::class, function (Faker $faker) {
 
 $factory->afterCreating(Review::class, function (Review $review, Faker $faker) {
     $rand = random_int(1, 4);
-    $review->content_blocks()->saveMany(factory(ContentBlock::class, $rand)->make());
+    $blocks = [];
+    for ($index = 0; $index < $rand; $index++) {
+        $blocks[] = factory(ContentBlock::class)->make(['sort' => $index]);
+    }
+    $review->content_blocks()->saveMany($blocks);
 });

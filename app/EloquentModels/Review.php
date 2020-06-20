@@ -52,7 +52,7 @@ class Review extends Model
      */
     public function content_blocks()
     {
-        return $this->hasMany(ContentBlock::class);
+        return $this->hasMany(ContentBlock::class)->orderBy('sort', 'asc');
     }
 
     /**
