@@ -66,7 +66,7 @@ class UserController extends Controller
         if(!preg_match('/^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$/', $username)) {
             return [
                 'success' => false,
-                'message'  => 'Username can only be 8 - 20 alpha numeric characters!',
+                'message'  => 'Username must be  between 8 and 20 alpha numeric characters!',
             ];
         }
 

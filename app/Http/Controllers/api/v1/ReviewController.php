@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\EloquentModels\ContentBlock;
 use App\EloquentModels\Review;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewCollection;
@@ -35,6 +36,7 @@ class ReviewController extends Controller
             'title' => 'required|string',
             'type' => 'required|in:beer,footy',
             'publish_date' => 'required|integer',
+            'content_blocks' => 'array',
         ]);
 
         if(!$validatedData) {
@@ -53,6 +55,7 @@ class ReviewController extends Controller
             ];
         }
 
+        $content_blocks = $request->content_blocks;
         $title = $request->title;
         $type = $request->type;
         $publish_date = $request->publish_date;
@@ -64,6 +67,14 @@ class ReviewController extends Controller
         $review->publish_date = $publish_date;
         $review->status = 'published';
         $review->save();
+
+        if ($content_blocks) {
+            $newBlocks = [];
+            foreach ($content_blocks as $block ) {
+                $newBlocks[] = factory(ContentBlock::class)->make($block);
+            }
+            $review->content_blocks()->saveMany($newBlocks);
+        }
 
         return [
             'success' => true,
