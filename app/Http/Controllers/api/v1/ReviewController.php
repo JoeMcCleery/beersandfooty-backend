@@ -33,8 +33,8 @@ class ReviewController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|string',
-            'type' => 'in:beer,footy',
-            'publish_date' => 'required|string',
+            'type' => 'required|in:beer,footy',
+            'publish_date' => 'required|integer',
         ]);
 
         if(!$validatedData) {
@@ -62,6 +62,7 @@ class ReviewController extends Controller
         $review->title = $title;
         $review->type = $type;
         $review->publish_date = $publish_date;
+        $review->status = 'published';
         $review->save();
 
         return [
@@ -91,15 +92,5 @@ class ReviewController extends Controller
             'success' => true,
             'message' => 'Review with id:'.$id.' has been deleted.'
         ];
-    }
-
-    public function beerReviews(Request $request)
-    {
-        return new ReviewCollection(Review::where(['type' => 'beer', 'status' => 'published'])->orderBy('publish_date', 'desc')->paginate());
-    }
-
-    public function footyReviews(Request $request)
-    {
-        return new ReviewCollection(Review::where(['type' => 'footy',  'status' => 'published'])->orderBy('publish_date', 'desc')->paginate());
     }
 }
