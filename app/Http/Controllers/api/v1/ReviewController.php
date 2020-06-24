@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewCollection;
 use Illuminate\Http\Request;
 use App\Http\Resources\Review as ReviewResource;
+use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
 {
@@ -69,11 +70,22 @@ class ReviewController extends Controller
         $review->save();
 
         if ($content_blocks) {
-            $newBlocks = [];
+            Storage::makeDirectory('public/images');
+
             foreach ($content_blocks as $block ) {
-                $newBlocks[] = factory(ContentBlock::class)->make($block);
+                if($block['type'] === 'image' && (base64_decode($block['content'], true)) === false) {
+                    $extension = '.'.explode('/', mime_content_type($block['content']))[1];
+                    $fileName = 'public/images/'.hash('md5', $block['content']);
+                    if(Storage::exists($fileName.$extension)) {
+                        $block['content'] = url('/').Storage::url($fileName.$extension);
+                    } else {
+                        $image = str_replace(array('data:image/png;base64,', 'data:image/jpg;base64,', 'data:image/jpeg;base64,', 'data:image/gif;base64,', ' '), array('', '', '', '', '+'), $block['content']);
+                        Storage::put($fileName.$extension, base64_decode($image));
+                        $block['content'] = url('/').Storage::url($fileName.$extension);
+                    }
+                }
+                $review->content_blocks()->save(factory(ContentBlock::class)->make($block));
             }
-            $review->content_blocks()->saveMany($newBlocks);
         }
 
         return [
@@ -85,7 +97,44 @@ class ReviewController extends Controller
     }
 
     public function update(Request $request, $id)
-    {}
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string',
+            'type' => 'required|in:beer,footy',
+            'publish_date' => 'required|integer',
+            'content_blocks' => 'array',
+        ]);
+
+        if(!$validatedData) {
+            return [
+                'success' => false,
+                'message'  => 'Could not validate request!',
+            ];
+        }
+
+        $user = auth('api')->user();
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message'  => 'Must be logged in to make reviews!',
+            ];
+        }
+
+        $content_blocks = $request->content_blocks;
+        $title = $request->title;
+        $type = $request->type;
+        $publish_date = $request->publish_date;
+
+        $review = Review::find($id);
+
+        if (!$review || $review->user_id !== $user->id) {
+            return [
+                'success' => false,
+                'message' => 'Could not find review with id:'.$id.', or do not have permission to delete.'
+            ];
+        }
+    }
 
     public function delete(Request $request, $id)
     {

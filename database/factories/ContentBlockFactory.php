@@ -41,7 +41,7 @@ $factory->define(ContentBlock::class, function (Faker $faker) {
         case 4:
             return [
                 'type' => 'image',
-                'content' => 'https://via.placeholder.com/512?Text=BeersAndFooty.com',
+                'content' => 'https://via.placeholder.com/512',
             ];
             break;
     }

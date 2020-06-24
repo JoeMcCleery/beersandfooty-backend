@@ -78,7 +78,7 @@ class UserController extends Controller
         return [
             'success' => true,
             'data' => [
-                'user' => $this->show($user->id)
+                'user' => new UserResource($user)
             ]
         ];
     }
@@ -99,7 +99,6 @@ class UserController extends Controller
         }
 
         $user->delete();
-
 
         return [
             'success' => true,
