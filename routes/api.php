@@ -19,7 +19,7 @@ Route::prefix('v1')->middleware('client')->group( function () {
     Route::get('/users', 'api\v1\UserController@index');
     Route::get('/users/{id}', 'api\v1\UserController@show');
     Route::post('/users', 'api\v1\UserController@store');
-    Route::put('/users/{id}', 'api\v1\UserController@update');
+    Route::put('/users', 'api\v1\UserController@update');
     Route::delete('/users/{id}', 'api\v1\UserController@delete');
 
     // Review
