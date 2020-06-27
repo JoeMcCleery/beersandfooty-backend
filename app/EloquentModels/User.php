@@ -45,6 +45,13 @@ class User extends Authenticatable
     protected $casts = [];
 
     /**
+     * Is the User an Admin
+     */
+    public function isAdmin() {
+        return false;
+    }
+
+    /**
      * Calculate and return the current user's score
      */
     public function getScore() {
