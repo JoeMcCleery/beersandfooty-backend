@@ -26,8 +26,6 @@ flush:
 deploy-prod:
 	composer install --optimize-autoloader --no-dev
 	npm install
-	make db-reset
-	make generate-keys
 	make flush
 	make serve
 
