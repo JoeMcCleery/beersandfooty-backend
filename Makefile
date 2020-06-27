@@ -23,6 +23,10 @@ flush:
 	php artisan config:cache
 	php artisan view:cache
 
+setup-storage:
+	php artisan storage:link
+	mkdir ./storage/app/uploads
+
 deploy-prod:
 	composer install --optimize-autoloader --no-dev
 	npm install
