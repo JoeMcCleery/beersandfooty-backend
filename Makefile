@@ -25,7 +25,7 @@ flush:
 
 setup-storage:
 	php artisan storage:link
-	mkdir ./storage/app/uploads
+	mkdir ./storage/app/public/uploads
 
 deploy-prod:
 	composer install --optimize-autoloader --no-dev
