@@ -14,12 +14,6 @@ class VoteSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::all();
-        $reviews = Review::all();
-        foreach ($reviews as $review) {
-            foreach ($users as $user) {
-                factory(Vote::class)->create(['user_id' => $user->id, 'review_id' => $review->id]);
-            }
-        }
+        factory(Vote::class, 12800)->create();
     }
 }

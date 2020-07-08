@@ -21,7 +21,7 @@ use Faker\Generator as Faker;
 $factory->define(Vote::class, function (Faker $faker) {
     return [
         'upvote' => $faker->boolean(80),
-        'user_id' => User::all()->random(),
-        'review_id' => Review::all()->random()
+        'user_id' => random_int(1,256),
+        'review_id' => random_int(1,50)
     ];
 });
