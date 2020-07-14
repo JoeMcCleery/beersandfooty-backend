@@ -160,18 +160,20 @@ class ReviewController extends Controller
     private function createContentBlocksAndSaveToReview($review, $contenBlocks) {
         if (count($contenBlocks)) {
             foreach ($contenBlocks as $block ) {
-                $imageData = str_replace(array('data:image/png;base64,', 'data:image/jpg;base64,', 'data:image/jpeg;base64,', 'data:image/gif;base64,', ' '), array('', '', '', '', '+'), $block['content']);
-                if($block['type'] === 'image' && preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $imageData)) {
-                    $extension = '.'.explode('/', mime_content_type($block['content']))[1];
-                    $fileName = 'uploads/'.hash('md5', $block['content']);
-                    if(file_exists(storage_path('app/public/'.$fileName.'-resized'.$extension))) {
-                        $block['content'] = url('storage/'.$fileName.'-resized'.$extension);
-                    } else {
-                        $imageData = str_replace(array('data:image/png;base64,', 'data:image/jpg;base64,', 'data:image/jpeg;base64,', 'data:image/gif;base64,', ' '), array('', '', '', '', '+'), $block['content']);
-                        $image_resize = Image::make(base64_decode($imageData));
-                        $image_resize = $this->resizeImage($image_resize, 512);
-                        $image_resize->save(storage_path('app/public/'.$fileName.'-resized'.$extension));
-                        $block['content'] = url('storage/'.$fileName.'-resized'.$extension);
+                if($block['type'] === 'image') {
+                    $imageData = str_replace(array('data:image/png;base64,', 'data:image/jpg;base64,', 'data:image/jpeg;base64,', 'data:image/gif;base64,', ' '), array('', '', '', '', '+'), $block['content']);
+                    if(preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $imageData)) {
+                        $extension = '.'.explode('/', mime_content_type($block['content']))[1];
+                        $fileName = 'uploads/'.hash('md5', $block['content']);
+                        if(file_exists(storage_path('app/public/'.$fileName.'-resized'.$extension))) {
+                            $block['content'] = url('storage/'.$fileName.'-resized'.$extension);
+                        } else {
+                            $imageData = str_replace(array('data:image/png;base64,', 'data:image/jpg;base64,', 'data:image/jpeg;base64,', 'data:image/gif;base64,', ' '), array('', '', '', '', '+'), $block['content']);
+                            $image_resize = Image::make(base64_decode($imageData));
+                            $image_resize = $this->resizeImage($image_resize, 512);
+                            $image_resize->save(storage_path('app/public/'.$fileName.'-resized'.$extension));
+                            $block['content'] = url('storage/'.$fileName.'-resized'.$extension);
+                        }
                     }
                 }
                 $block['id'] = 0;
