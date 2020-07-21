@@ -38,6 +38,7 @@ class ReviewController extends Controller
             'type' => 'required|in:beer,footy',
             'publish_date' => 'required|integer',
             'content_blocks' => 'array',
+            'status' => 'string'
         ]);
 
         if(!$validatedData) {
