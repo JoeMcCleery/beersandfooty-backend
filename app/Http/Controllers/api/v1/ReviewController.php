@@ -60,13 +60,14 @@ class ReviewController extends Controller
         $title = $request->title;
         $type = $request->type;
         $publish_date = $request->publish_date;
+        $status = $request->status ? $request->status : 'hidden';
 
         $review = new Review();
         $review->user_id = $user->id;
         $review->title = $title;
         $review->type = $type;
         $review->publish_date = $publish_date;
-        $review->status = 'published';
+        $review->status = $status;
         $review->save();
 
         $this->createContentBlocksAndSaveToReview($review, $content_blocks);
@@ -87,6 +88,7 @@ class ReviewController extends Controller
             'type' => 'required|in:beer,footy',
             'publish_date' => 'required|integer',
             'content_blocks' => 'array',
+            'status' => 'string',
         ]);
 
         if(!$validatedData) {
@@ -110,13 +112,14 @@ class ReviewController extends Controller
         $type = $request->type;
         $publish_date = $request->publish_date;
         $id = $request->id;
+        $status = $request->status ? $request->status : 'hidden';
 
         $review = Review::find($id);
 
-        if (!$review || $review->user_id !== $user->id) {
+        if (!$review || ($review->user_id !== $user->id && !$user->isAdmin())) {
             return [
                 'success' => false,
-                'message' => 'Could not find review with id:'.$id.', or do not have permission to delete.'
+                'message' => 'Could not find review with id:'.$id.', or do not have permission to update.'
             ];
         }
 
@@ -125,7 +128,7 @@ class ReviewController extends Controller
         $review->title = $title;
         $review->type = $type;
         $review->publish_date = $publish_date;
-        $review->status = 'published';
+        $review->status = $status;
 
         $this->createContentBlocksAndSaveToReview($review, $content_blocks);
 
@@ -142,7 +145,16 @@ class ReviewController extends Controller
     public function delete(Request $request, $id)
     {
         $review = Review::find($id);
-        if (!$review && $review->user_id !== auth('api')->user()->id) {
+        $user = auth('api')->user();
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message'  => 'Must be logged in to delete reviews!',
+            ];
+        }
+
+        if (!$review || ($review->user_id !== $user->id && !$user->isAdmin())) {
             return [
                 'success' => false,
                 'message' => 'Could not find review with id: '.$id.', or do not have permission to delete.'

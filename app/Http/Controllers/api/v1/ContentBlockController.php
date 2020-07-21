@@ -49,10 +49,10 @@ class ContentBlockController extends Controller
         $review_id = $request->review_id;
         $review = Review::find($review_id);
 
-        if($review && $review->user_id === $user->id) {
+        if($review || ($review->user_id !== $user->id && !$user->isAdmin())) {
             return [
                 'success' => false,
-                'message'  => 'Could not find Review to save Content Block on, or do not have permission to add Content Blocks to Review with id:'.$review_id.'!',
+                'message'  => 'Could not find Review, or do not have permission to add Content Blocks to Review with id:'.$review_id.'!',
             ];
         }
 
@@ -81,7 +81,16 @@ class ContentBlockController extends Controller
     public function delete(Request $request, $id)
     {
         $block = ContentBlock::find($id);
-        if (!$block && $block->review->user_id !== auth('api')->user()->id) {
+        $user = auth('api')->user();
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message'  => 'Must be logged in to make Content Blocks!',
+            ];
+        }
+
+        if (!$block || ($block->user_id !== $user->id && !$user->isAdmin())) {
             return [
                 'success' => false,
                 'message' => 'Could not find review with id:'.$id.', or do not have permission to delete.'

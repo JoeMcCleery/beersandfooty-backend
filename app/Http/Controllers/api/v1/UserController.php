@@ -89,8 +89,16 @@ class UserController extends Controller
     public function delete(Request $request, $id)
     {
         $user = User::find($id);
+        $loggedInUser = auth('api')->user();
 
-        if (!$user && $user !== auth('api')->user()) {
+        if (!$loggedInUser) {
+            return [
+                'success' => false,
+                'message'  => 'Must be logged in to delete reviews!',
+            ];
+        }
+
+        if (!$user || ($user !== $loggedInUser && !$loggedInUser->isAdmin())) {
             return [
                 'success' => false,
                 'message' => 'Could not find User with id:'.$id.', or do not have permission to delete.'
