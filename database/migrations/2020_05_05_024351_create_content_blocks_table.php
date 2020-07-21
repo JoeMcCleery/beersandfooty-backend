@@ -21,7 +21,6 @@ class CreateContentBlocksTable extends Migration
             $table->enum('type', ['long_text', 'short_text', 'score', 'image']);
             $table->string('content', 1024);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

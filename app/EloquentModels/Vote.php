@@ -3,7 +3,6 @@
 namespace App\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vote extends Model
 {

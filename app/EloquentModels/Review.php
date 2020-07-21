@@ -3,11 +3,9 @@
 namespace App\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Review extends Model
 {
-    use SoftDeletes;
 
     public static function boot() {
         parent::boot();

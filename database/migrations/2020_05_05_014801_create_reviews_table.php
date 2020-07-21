@@ -23,7 +23,6 @@ class CreateReviewsTable extends Migration
             $table->char('title', 100);
             $table->bigInteger('publish_date');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
