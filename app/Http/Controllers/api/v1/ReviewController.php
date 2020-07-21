@@ -145,10 +145,11 @@ class ReviewController extends Controller
         if (!$review && $review->user_id !== auth('api')->user()->id) {
             return [
                 'success' => false,
-                'message' => 'Could not find review with id:'.$id.', or do not have permission to delete.'
+                'message' => 'Could not find review with id: '.$id.', or do not have permission to delete.'
             ];
         }
-
+        $review->content_blocks()->delete();
+        $review->votes()->delete();
         $review->delete();
 
         return [
