@@ -11,6 +11,6 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\EloquentModels\Review::class, 50)->create(['status' => 'published']);
+        factory(App\EloquentModels\Review::class, 25)->create(['status' => 'published']);
     }
 }
