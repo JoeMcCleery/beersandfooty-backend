@@ -23,6 +23,7 @@ Route::prefix('v1')->middleware('client')->group( function () {
     Route::delete('/users/{id}', 'api\v1\UserController@delete');
 
     // Review
+    Route::get('/reviews/unpublished', 'api\v1\ReviewController@unpublishedReviews');
     Route::get('/reviews', 'api\v1\ReviewController@index');
     Route::get('/reviews/{id}', 'api\v1\ReviewController@show');
     Route::post('/reviews', 'api\v1\ReviewController@store');
