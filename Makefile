@@ -13,7 +13,7 @@ db-seed-fresh:
 	php artisan migrate:fresh --seed
 
 db-migrate-fresh:
-	php artisan migrate:refreshigital ocean
+	php artisan migrate:refresh
 
 
 generate-keys:
