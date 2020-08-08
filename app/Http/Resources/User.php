@@ -19,10 +19,11 @@ class User extends JsonResource
             'username' => $this->username,
             'reviews' => ReviewCollection::make($this->reviews),
             'votes' => VoteCollection::make($this->votes),
-            'score' => $this->score(),
+            'score' => $this->score,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
+            'isAdmin' => $this->isAdmin()
         ];
     }
 }

@@ -18,7 +18,10 @@ class Review extends JsonResource
         $downvotes = $this->votes->where('upvote', false)->count();
         return [
             'id' => $this->id,
+            'status' => $this->status,
             'user_id' => $this->user_id,
+            'author' => $this->user->username,
+            'score' => $this->score,
             'type' => $this->type,
             'title' => $this->title,
             'publish_date' => $this->publish_date,

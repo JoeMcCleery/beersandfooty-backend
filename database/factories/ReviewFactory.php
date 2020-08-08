@@ -20,10 +20,11 @@ use Faker\Generator as Faker;
 
 $factory->define(Review::class, function (Faker $faker) {
     $type = random_int(0,1);
+    $published = random_int(0,1);
     return [
         'type' => $type ? 'beer' : 'footy',
-        'status' => 'published',
-        'title' => $faker->name,
+        'status' => $published ? 'published' : 'hidden',
+        'title' => $faker->text(16),
         'publish_date' => $faker->unixTime(),
         'user_id' => User::all()->random()
     ];
@@ -31,5 +32,9 @@ $factory->define(Review::class, function (Faker $faker) {
 
 $factory->afterCreating(Review::class, function (Review $review, Faker $faker) {
     $rand = random_int(1, 4);
-    $review->content_blocks()->saveMany(factory(ContentBlock::class, $rand)->make());
+    $blocks = [];
+    for ($index = 0; $index < $rand; $index++) {
+        $blocks[] = factory(ContentBlock::class)->make(['sort' => $index]);
+    }
+    $review->content_blocks()->saveMany($blocks);
 });

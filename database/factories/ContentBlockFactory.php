@@ -17,8 +17,32 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(ContentBlock::class, function (Faker $faker) {
-    return [
-        'type' => 'long_text',
-        'content' => $faker->paragraph,
-    ];
+    $rand = random_int(1, 4);
+    switch ($rand) {
+        default:
+        case 1:
+            return [
+                'type' => 'long_text',
+                'content' => $faker->paragraph,
+            ];
+            break;
+        case 2:
+            return [
+                'type' => 'short_text',
+                'content' => $faker->paragraph(1),
+            ];
+            break;
+        case 3:
+            return [
+                'type' => 'score',
+                'content' => $faker->numberBetween(0, 100),
+            ];
+            break;
+        case 4:
+            return [
+                'type' => 'image',
+                'content' => 'https://via.placeholder.com/512',
+            ];
+            break;
+    }
 });

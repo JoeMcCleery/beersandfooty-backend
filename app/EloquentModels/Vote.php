@@ -3,10 +3,31 @@
 namespace App\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vote extends Model
 {
+
+    public static function boot() {
+        parent::boot();
+
+        self::created(function ($model) {
+            self::updateReviewScore($model);
+        });
+
+        self::updated(function ($model) {
+            self::updateReviewScore($model);
+        });
+
+        self::deleted(function ($model) {
+            self::updateReviewScore($model);
+        });
+    }
+
+    private static function updateReviewScore($model) {
+        $review = $model->review;
+        $review->score = $review->getScore();
+        $review->save();
+    }
 
     /**
      * The table associated with the model.

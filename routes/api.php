@@ -19,7 +19,7 @@ Route::prefix('v1')->middleware('client')->group( function () {
     Route::get('/users', 'api\v1\UserController@index');
     Route::get('/users/{id}', 'api\v1\UserController@show');
     Route::post('/users', 'api\v1\UserController@store');
-    Route::put('/users/{id}', 'api\v1\UserController@update');
+    Route::put('/users', 'api\v1\UserController@update');
     Route::delete('/users/{id}', 'api\v1\UserController@delete');
 
     // Review
@@ -36,10 +36,12 @@ Route::prefix('v1')->middleware('client')->group( function () {
     Route::put('/votes', 'api\v1\VoteController@update');
     Route::delete('/votes/{id}', 'api\v1\VoteController@delete');
 
-    // returns all published beer reviews
-    Route::get('/beer-reviews', 'api\v1\ReviewController@beerReviews');
-    // returns all published footy reviews
-    Route::get('/footy-reviews', 'api\v1\ReviewController@footyReviews');
+    // Content Blocks
+    Route::get('/content-blocks', 'api\v1\ContentBlockController@index');
+    Route::get('/content-blocks/{id}', 'api\v1\ContentBlockController@show');
+    Route::post('/content-blocks', 'api\v1\ContentBlockController@store');
+    Route::put('/content-blocks', 'api\v1\ContentBlockController@update');
+    Route::delete('/content-blocks/{id}', 'api\v1\ContentBlockController@delete');
 });
 
 

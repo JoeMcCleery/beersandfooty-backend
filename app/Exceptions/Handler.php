@@ -42,14 +42,16 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception $exception
+     * @return \Illuminate\Http\Response
      */
     public function render($request, Throwable $exception)
     {
+        if (get_class($exception) === \Laravel\Passport\Exceptions\OAuthServerException::class) {
+            return response(['message' => 'Authentication Error!'], 401);
+        }
+
         return parent::render($request, $exception);
     }
 }

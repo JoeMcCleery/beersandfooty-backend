@@ -7,7 +7,7 @@ install:
 	npm install
 
 serve:
-	php artisan serve
+	php artisan serve --host=${APP_HOST}
 
 db-reset:
 	php artisan migrate:fresh --seed
@@ -23,11 +23,14 @@ flush:
 	php artisan config:cache
 	php artisan view:cache
 
+setup-storage:
+	php artisan storage:link
+	mkdir ./storage/app/public/uploads
+
 deploy-prod:
 	composer install --optimize-autoloader --no-dev
 	npm install
-	make generate-keys
-	make db-reset
 	make flush
 	make serve
 
+-include .env

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\EloquentModels\Vote;
 use App\Http\Controllers\Controller;
+use App\EloquentModels\Review;
 use App\Http\Resources\VoteCollection;
 use Illuminate\Http\Request;
 use App\Http\Resources\Vote as VoteResource;
@@ -36,12 +37,21 @@ class VoteController extends Controller
 
         $upvote = $request->upvote;
         $review_id = $request->review_id;
+        $review = Review::find($review_id);
+
         $user = auth('api')->user();
 
         if (!$user) {
             return [
                 'success' => false,
-                'message'  => 'Must be logged in to make votes!',
+                'message'  => 'Must be logged in to make Votes!',
+            ];
+        }
+
+        if(!$review) {
+            return [
+                'success' => false,
+                'message'  => 'Could not find Review to make Vote towards!',
             ];
         }
 
@@ -58,9 +68,7 @@ class VoteController extends Controller
 
         return [
             'success' => true,
-            'data' => [
-                'vote' => $this->show($vote->id)
-            ]
+            'data' => $this->show($vote->id)
         ];
     }
 

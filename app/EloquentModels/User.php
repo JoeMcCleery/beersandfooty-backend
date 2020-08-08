@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'password',
+        'username', 'password', 'email',
     ];
 
     /**
@@ -45,13 +45,24 @@ class User extends Authenticatable
     protected $casts = [];
 
     /**
-     * Calculate and return the current users score
+     * Is the User an Admin
      */
-    public function score() {
+    public function isAdmin() {
+        if($this->username === 'FovealHotbox') { // hehe
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Calculate and return the current user's score
+     */
+    public function getScore() {
         $score = 0;
-        foreach ($this->reviews as $review) {
-            foreach($review->votes as $vote) {
-                $score += $vote->upvote ? 1 : -1;
+        $reviews = $this->reviews;
+        if($reviews) {
+            foreach ($reviews as $review) {
+                $score += $review->score;
             }
         }
         return $score;
@@ -92,7 +103,7 @@ class User extends Authenticatable
      */
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class)->orderBy('publish_date', 'desc');
     }
 
     /**

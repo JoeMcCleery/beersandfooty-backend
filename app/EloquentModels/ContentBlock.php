@@ -3,11 +3,9 @@
 namespace App\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ContentBlock extends Model
 {
-    use SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -22,7 +20,7 @@ class ContentBlock extends Model
      * @var array
      */
     protected $fillable = [
-        'type', 'content',
+        'sort', 'type', 'content',
     ];
 
     /**
