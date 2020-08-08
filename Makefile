@@ -9,8 +9,11 @@ install:
 serve:
 	php artisan serve --host=${APP_HOST}
 
-db-reset:
+db-seed-fresh:
 	php artisan migrate:fresh --seed
+
+db-migrate-fresh:
+	php artisan migrate:refresh
 
 generate-keys:
 	php artisan key:generate
