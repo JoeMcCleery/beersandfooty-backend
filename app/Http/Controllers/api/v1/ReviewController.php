@@ -13,7 +13,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 class ReviewController extends Controller
 {
     public function unpublishedReviews(Request $request) {
-        return new ReviewCollection(Review::where(['status' => 'hidden'])->orderBy('publish_date', 'desc'));
+        return new ReviewCollection(Review::where(['status' => 'hidden'])->orderBy('publish_date', 'desc')->get());
     }
 
     public function index(Request $request)
