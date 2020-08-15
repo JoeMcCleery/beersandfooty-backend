@@ -7,7 +7,7 @@ install:
 	npm install
 
 serve:
-	php artisan serve --host=${APP_HOST}
+	php artisan serve
 
 db-seed-fresh:
 	php artisan migrate:fresh --seed
