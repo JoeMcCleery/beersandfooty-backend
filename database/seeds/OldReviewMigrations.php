@@ -323,7 +323,7 @@ class OldReviewMigrations extends Seeder
 
         foreach ($beerData as $beerReview) {
             $newReview = new  Review();
-            $newReview->user_id = 26;
+            $newReview->user_id = 1;
             $newReview->type = 'beer';
             $newReview->title = $beerReview['title'];
             $newReview->publish_date = $beerReview['publishDate'] / 1000;
