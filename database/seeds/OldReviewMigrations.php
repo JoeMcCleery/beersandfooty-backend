@@ -573,7 +573,7 @@ class OldReviewMigrations extends Seeder
 
         foreach ($footyData as $footyReview) {
             $newReview = new  Review();
-            $newReview->user_id = 26;
+            $newReview->user_id = 1;
             $newReview->type = 'footy';
             $newReview->title = $footyReview['title'];
             $newReview->publish_date = $footyReview['publishDate'] / 1000;
