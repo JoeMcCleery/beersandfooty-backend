@@ -24,6 +24,7 @@ Route::prefix('v1')->middleware('client')->group( function () {
 
     // Review
     Route::get('/reviews/unpublished', 'api\v1\ReviewController@unpublishedReviews');
+    Route::get('/reviews/published', 'api\v1\ReviewController@publishedReviews');
     Route::get('/reviews', 'api\v1\ReviewController@index');
     Route::get('/reviews/{id}', 'api\v1\ReviewController@show');
     Route::post('/reviews', 'api\v1\ReviewController@store');

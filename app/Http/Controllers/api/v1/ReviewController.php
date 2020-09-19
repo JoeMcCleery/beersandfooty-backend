@@ -16,6 +16,10 @@ class ReviewController extends Controller
         return new ReviewCollection(Review::where(['status' => 'hidden'])->orderBy('publish_date', 'desc')->get());
     }
 
+    public function publishedReviews(Request $request) {
+        return new ReviewCollection(Review::where(['status' => 'published'])->orderBy('publish_date', 'desc')->get());
+    }
+
     public function index(Request $request)
     {
         $filterDefault = [
