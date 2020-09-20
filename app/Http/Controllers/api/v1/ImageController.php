@@ -2,27 +2,65 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\EloquentModels\Vote;
 use App\Http\Controllers\Controller;
-use App\EloquentModels\Review;
-use App\Http\Resources\VoteCollection;
 use Illuminate\Http\Request;
-use App\Http\Resources\Vote as VoteResource;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageController extends Controller
 {
-    public function index()
-    {}
+    public function uploadImage(Request $request) {
+        $data = $request->imageData;
+        if($data) {
+            $imageData = str_replace(array('data:image/png;base64,', 'data:image/jpg;base64,', 'data:image/jpeg;base64,', 'data:image/gif;base64,', ' '), array('', '', '', '', '+'), $data);
+            if(preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $imageData)) {
+                $extension = '.'.explode('/', mime_content_type($data))[1];
+                $fileName = 'uploads/'.hash('md5', $data);
+                $url = '';
+                if(file_exists(storage_path('app/public/'.$fileName.'-resized'.$extension))) {
+                    $url = url('storage/'.$fileName.'-resized'.$extension);
+                } else {
+                    $imageData = str_replace(array('data:image/png;base64,', 'data:image/jpg;base64,', 'data:image/jpeg;base64,', 'data:image/gif;base64,', ' '), array('', '', '', '', '+'), $data);
+                    $image_resize = Image::make(base64_decode($imageData));
+                    $image_resize = $this->resizeImage($image_resize, 512);
+                    $image_resize->save(storage_path('app/public/'.$fileName.'-resized'.$extension));
+                    $url = url('storage/'.$fileName.'-resized'.$extension);
+                }
+                return [
+                    'success' => true,
+                    'url' => $url
+                ];
+            }
+            return [
+                'success' => false,
+                'message' => 'image data is not in the correct format!'
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => 'no image data!'
+        ];
+    }
 
-    public function show($id)
-    {}
+    private function resizeImage($image, $requiredSize) {
+        $width = $image->width();
+        $height = $image->height();
 
-    public function store(Request $request)
-    {}
+        // Check if image resize is required or not
+        if ($requiredSize >= $width && $requiredSize >= $height) return $image;
 
-    public function update(Request $request, $id)
-    {}
+        $newWidth = 0;
+        $newHeight = 0;
 
-    public function delete(Request $request, $id)
-    {}
+        $aspectRatio = $width/$height;
+        if ($aspectRatio >= 1.0) {
+            $newWidth = $requiredSize;
+            $newHeight = $requiredSize / $aspectRatio;
+        } else {
+            $newWidth = $requiredSize * $aspectRatio;
+            $newHeight = $requiredSize;
+        }
+
+        $image->resize($newWidth, $newHeight);
+        return $image;
+    }
 }

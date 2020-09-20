@@ -44,6 +44,9 @@ Route::prefix('v1')->middleware('client')->group( function () {
     Route::post('/content-blocks', 'api\v1\ContentBlockController@store');
     Route::put('/content-blocks', 'api\v1\ContentBlockController@update');
     Route::delete('/content-blocks/{id}', 'api\v1\ContentBlockController@delete');
+
+    // Image Uploads
+    Route::post('/upload-image', 'api\v1\ImageController@uploadImage');
 });
 
 
